@@ -159,6 +159,7 @@ public:
     // 地址随着类的消失而被回收
     list_node *end;
     int count;
+    bool loop_change = false;
 
 public:
     linkedList_ord(const linkedList_ord &other)
@@ -231,16 +232,29 @@ public:
         // 头节点不是nullptr啊
         // 删除逻辑和别的函数不一样的，完全遍历
         list_node *cur = this->head;
-        while (cur != nullptr)
-        {
-            /*             list_node *tmp = cur;
-                        cur = cur->next;
-                        delete tmp; */
 
-            list_node *next_node = cur->next;
-            delete cur;
-            cur = next_node;
+        // 为了预备循环链表，需要用count来删
+        if (!loop_change)
+        {
+            count++;
         }
+        while (count--)
+        {
+            list_node *del = cur;
+            cur = cur->next;
+            delete del;
+        }
+
+        //  while (cur != nullptr)
+        //  {
+        //      /*             list_node *tmp = cur;
+        //                  cur = cur->next;
+        //                  delete tmp; */
+
+        //     list_node *next_node = cur->next;
+        //     delete cur;
+        //     cur = next_node;
+        // }
         // 漏了虚拟头节点和最后一个节点
         head = nullptr;
         // end指代最后的一个实体元素，会被顺便删掉
@@ -252,6 +266,24 @@ public:
             return true;
         }
         return false;
+    }
+    errorcode print()
+    {
+        if (count == 0)
+        {
+            // underflow必须是非法操作
+            // return errorcode::underflow;
+            std::cout << "此表为空" << std::endl;
+            return errorcode::success;
+        }
+        list_node *cur = head;
+        while (cur->next != nullptr)
+        {
+            std::cout << cur->next->data << " ";
+            cur = cur->next;
+        }
+        std::cout << std::endl;
+        return errorcode::success;
     }
 };
 
