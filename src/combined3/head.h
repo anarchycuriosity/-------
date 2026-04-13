@@ -29,7 +29,6 @@ public:
         list_node *tmp = end;
         end = end->pre;
         delete tmp;
-        return errorcode::success;
         count--;
         return errorcode::success;
     }
@@ -41,7 +40,16 @@ public:
     using linkedList_ord::linkedList_ord;
     errorcode insert(int _data) // 从队尾插入
     {
+        if (empty())
+        {
+            list_node *node = new list_node(_data);
+            head->next = node;
+            end = node;
+            end->next = nullptr;
+            return errorcode::success;
+        }
         list_node *node = new list_node(_data);
+        end->next = node;
         end = node;
         end->next = nullptr;
         count++;
@@ -122,13 +130,20 @@ void get(Queue q, Stack st, int &sort_count) // queue模拟入栈，st模拟实�
     }
     if (!q.empty())
     {
-        st.insert(q.end->data);
-        q.pop();
+
         // sort_count++;
-        get(q, st, sort_count);
+        Queue next_q = q;
+        Stack next_st = st;
+        next_st.insert(q.head->data);
+        next_q.pop();
+        get(next_q, next_st, sort_count);
     }
+
     if (!st.empty())
     {
-        st.pop();
+        Queue next_q = q;
+        Stack next_st = st;
+        next_st.pop();
+        get(next_q, next_st, sort_count);
     }
 }
