@@ -121,7 +121,7 @@ bool judge_brackets(std::string &s)
 //     }
 // }
 // 考虑不要维护额外的数，直接判断是不是空的就好了
-void get(Queue q, Stack st, int &sort_count) // queue模拟入栈，st模拟实际的栈
+void get(Queue &q, Stack &st, int &sort_count) // queue模拟入栈，st模拟实际的栈
 {
     if (q.empty() && st.empty())
     {

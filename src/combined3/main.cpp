@@ -1,21 +1,6 @@
 #include "head.h"
 int main()
 {
-    // std::vector<int> test1 = {1, 2, 3, 4, 5};
-    // Queue q(test1);
-    // Stack st;
-    // int sort_count = 0;
-    // // get(q, st, pop, ins, sort_count);
-    // get(q, st, sort_count);
-    // std::cout << sort_count;
-    int n, k, m;
-    std::cin >> n >> k >> m; // n个人，报数k，剩下m个人
-    std::vector<int> people(n, 0);
-    for (int i = 1; i <= n; i++)
-    {
-        people[i - 1] = i;
-    }
-    linkedList_ord cir(people);
 
     // 尽量不要一个个删吧，用for循环数到了再删
     //  while (true)
@@ -59,6 +44,22 @@ int main()
     //  }
     //  cir.print();
     //  因为改成循环链表了所以不要用print输出
+
+    // std::vector<int> test1 = {1, 2, 3, 4, 5};
+    // Queue q(test1);
+    // Stack st;
+    // int sort_count = 0;
+    // // get(q, st, pop, ins, sort_count);
+    // get(q, st, sort_count);
+    // std::cout << sort_count;
+    int n, k, m;
+    std::cin >> n >> k >> m; // n个人，报数k，剩下m个人
+    std::vector<int> people(n, 0);
+    for (int i = 1; i <= n; i++)
+    {
+        people[i - 1] = i;
+    }
+    linkedList_ord cir(people);
 
     // 太愚蠢了，不应该拉入哨兵节点
     linkedList_ord::list_node *del = cir.head;
