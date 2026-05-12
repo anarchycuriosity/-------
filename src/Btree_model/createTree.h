@@ -41,7 +41,7 @@ void post_traverse(struct p_tree &t);
 void print_tree(struct p_tree &t);
 
 // 删除左空格
-void str_l_trim(char *str);
+// void str_l_trim(char *str);
 
 // 从文件创建树 (双亲表示)
 int create_tree_from_file(char file_name[], struct p_tree &t);

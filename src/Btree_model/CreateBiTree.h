@@ -23,7 +23,7 @@ bool read_file_to_array(char file_name[], char str_line[100][3], int &n_arr_len)
 // 从数组创建树
 bool create_bi_tree_from_file(struct bnode *&p_bt, char str_line[100][3], int n_len, int &n_row);
 // 删除字符串左边空格
-void str_l_trim(char *str);
+// void str_l_trim(char *str);
 void str_l_trim(char *str); // 申明删除字符串左边空格
 
 // 层次遍历--因为结构定义及运算实现的次序关系，临时放在此处
@@ -294,24 +294,24 @@ bool create_bi_tree_from_file(bnode *&p_bt, char str_line[NODE_NUM][3], int n_le
 // 数据文件创建二叉树结束------------------------------------------------------------------------
 
 // 删除字符串、字符数组左边空格
-void str_l_trim(char *str)
-{
-	int i, j;
-	int n = 0;
-	n = strlen(str) + 1;
-	for (i = 0; i < n; i++)
-	{
-		if (str[i] != ' ') // 找到左起第一个非空格位置
-		{
-			break;
-		}
-	}
-	// 以第一个非空格字符为首字符移动字符串
-	for (j = 0; j < n; j++)
-	{
-		str[j] = str[i];
-		i++;
-	}
-}
+// void str_l_trim(char *str)
+// {
+// 	int i, j;
+// 	int n = 0;
+// 	n = strlen(str) + 1;
+// 	for (i = 0; i < n; i++)
+// 	{
+// 		if (str[i] != ' ') // 找到左起第一个非空格位置
+// 		{
+// 			break;
+// 		}
+// 	}
+// 	// 以第一个非空格字符为首字符移动字符串
+// 	for (j = 0; j < n; j++)
+// 	{
+// 		str[j] = str[i];
+// 		i++;
+// 	}
+// }
 
 #endif

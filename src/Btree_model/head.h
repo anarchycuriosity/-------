@@ -2,6 +2,8 @@
 #include "createtree.h"
 #include <map>
 #include <vector>
+#include <unordered_map>
+#include <set>
 void s1_convert_array(bnode *root, elemen_type *s1) // s1数组从1开始存
 {
     int i = 1;
@@ -202,4 +204,18 @@ void s4_find_leaf_path(bnode *root, std::vector<elemen_type> &path) // 找到叶
     // 这个弹出非常的有讲究
     // 当第一层深入递归之后，它所在的栈帧会暂停，递归回来，这个弹出才会被执行，我甚至一开始愚蠢的以为它不会被执行
     // 并不是只有写了return这层才会结束，return只是人为设计的为了提前返回，防止对空指针重复操作，和设计返回任务罢了
+}
+void s5_build_CS_list_get_degree(std::vector<std::pair<elemen_type,elemen_type>> &pc_vec)//pc指的是parent child    因为没有树相关函数，所以只能手动写
+{
+    //find parents and their children,so we can build tree
+    //find root node through a child set
+    //about map:key is value and value is its children's ptrs
+    std::set<elemen_type> child_set;
+    // std::unordered_map<elemen_type,std::vector<bnode>> node_map;     we can write like this 
+    //because everytime we conduct on one ptr,its copy on other key's values will not be changed
+    //original array is also not allowed,because value copy is always the thing happens
+    for(auto &it : pc_vec)
+    {
+
+    }
 }
