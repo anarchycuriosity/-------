@@ -7,16 +7,25 @@
 void s1_convert_array(bnode *root, elemen_type *s1) // s1数组从1开始存
 {
     int i = 1;
-    std::queue<bnode *> q;
-    q.push(root);
-    while (root != nullptr)
+    struct node_pair
     {
-        bnode *node = q.front();
+        bnode * node_p;
+        int ind;
+    };
+    int max_i = NODE_NUM + 1;
+    std::queue<node_pair> q;
+    q.push({root,1});
+    // while (root != nullptr)
+    while(!q.empty())
+    {
+        bnode *node = q.front().node_p;
+        i = q.front().ind;
         s1[i] = node->data;
         if (node->lchild)
         {
             s1[2 * i] = node->lchild->data;
-            q.push(node->lchild);
+            q.push({node->lchild,2 * i});
+            max_i = std::max(2*i,max_i);
         }
         else
         {
@@ -25,14 +34,16 @@ void s1_convert_array(bnode *root, elemen_type *s1) // s1数组从1开始存
         if (node->rchild)
         {
             s1[2 * i + 1] = node->rchild->data;
-            q.push(node->rchild);
+            q.push({node->rchild,2 * i + 1});
+            max_i = std::max(2 * i + 1,max_i);
         }
         else
         {
             s1[2 * i + 1] = (elemen_type)'#';
         }
-        i++;
+        q.pop();
     }
+    s1[max_i + 1] = '\0';//其实加不加无所谓
 }
 void print(elemen_type *arr)
 {
@@ -46,116 +57,50 @@ void print(elemen_type *arr)
     }
 }
 
-void s2_find_relation(bnode *root, std::map<std::string, elemen_type> relations, elemen_type tar)
+
+
+void s2_find_relation(bnode* root, std::map<std::string, elemen_type>& relations, elemen_type tar,elemen_type s1[])
 {
-    elemen_type s1[NODE_NUM + 1];
+
+
+    // 2. 填充数组 (确保此函数按照层序索引填入，即 root 在 s1[1])
     s1_convert_array(root, s1);
+
+    // 3. 查找逻辑
     for (int i = 1; i <= NODE_NUM; i++)
     {
         if (s1[i] == tar)
         {
-            if (i % 2 == 0)
+            // 父节点逻辑
+            if (i > 1)
             {
-                int father_ind = i / 2;
-                if (s1[father_ind])
-                {
-                    relations.insert({"father", s1[father_ind]});
-                }
-                else
-                {
-                    relations.insert({"father", (elemen_type)'#'});
-                }
+                relations["father"] = s1[i / 2];
+            }
 
-                int right_bro_ind = i + 1;
-                if (right_bro_ind <= NODE_NUM)
-                {
-                    if (s1[right_bro_ind])
-                    {
-                        relations.insert({"right_bro", s1[right_bro_ind]});
-                    }
-                    else
-                    {
-                        relations.insert({"right_bro", (elemen_type)'#'});
-                    }
-                }
+            // 左右孩子逻辑
+            if (2 * i <= NODE_NUM)
+            {
+                relations["left_child"] = s1[2 * i];
+            }
+            if (2 * i + 1 <= NODE_NUM)
+            {
+                relations["right_child"] = s1[2 * i + 1];
+            }
 
-                int lchild_ind = 2 * i;
-                if (lchild_ind <= NODE_NUM)
+            // 兄弟逻辑
+            if (i % 2 == 0) // i 是左孩子
+            {
+                if (i + 1 <= NODE_NUM)
                 {
-                    if (s1[lchild_ind])
-                    {
-                        relations.insert({"left_child", s1[lchild_ind]});
-                    }
-                    else
-                    {
-                        relations.insert({"left_child", (elemen_type)'#'});
-                    }
-                }
-
-                int rchild_ind = 2 * i + 1;
-                if (rchild_ind <= NODE_NUM)
-                {
-                    if (s1[rchild_ind])
-                    {
-                        relations.insert({"right_child", s1[rchild_ind]});
-                    }
-                    else
-                    {
-                        relations.insert({"right_child", (elemen_type)'#'});
-                    }
+                    relations["right_bro"] = s1[i + 1];
                 }
             }
-            else
+            else if (i > 1) // i 是右孩子且不是根
             {
-                int father_ind = i / 2;
-                if (s1[father_ind])
-                {
-                    relations.insert({"father", s1[father_ind]});
-                }
-                else
-                {
-                    relations.insert({"father", (elemen_type)'#'});
-                }
-
-                int left_bro_ind = i - 1;
-                if (left_bro_ind <= NODE_NUM)
-                {
-                    if (s1[left_bro_ind])
-                    {
-                        relations.insert({"left_bro", s1[left_bro_ind]});
-                    }
-                    else
-                    {
-                        relations.insert({"left_bro", (elemen_type)'#'});
-                    }
-                }
-
-                int lchild_ind = 2 * i;
-                if (lchild_ind <= NODE_NUM)
-                {
-                    if (s1[lchild_ind])
-                    {
-                        relations.insert({"left_child", s1[lchild_ind]});
-                    }
-                    else
-                    {
-                        relations.insert({"left_child", (elemen_type)'#'});
-                    }
-                }
-
-                int rchild_ind = 2 * i + 1;
-                if (rchild_ind <= NODE_NUM)
-                {
-                    if (s1[rchild_ind])
-                    {
-                        relations.insert({"right_child", s1[rchild_ind]});
-                    }
-                    else
-                    {
-                        relations.insert({"right_child", (elemen_type)'#'});
-                    }
-                }
+                relations["left_bro"] = s1[i - 1];
             }
+            
+            return; 
         }
     }
 }

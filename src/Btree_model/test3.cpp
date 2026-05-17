@@ -4,26 +4,11 @@
 #include <string>
 int main()
 {
-    // char cwd[1024];
-    // if (_getcwd(cwd, sizeof(cwd)) != nullptr) 
-    // {
-    //     std::cout << "Current working dir: " << cwd << std::endl;
-    // }
-    //当前是在bin文件夹所以需要返回一个然后去到src文件夹
-    // FILE * fp;
-    // fp = fopen("../src/Btree_model/BTdata/bt10.btr","r");
-    // if(fp == nullptr)
-    // {
-    //     std::cout << "fail";
-    // }
-    // else
-    // {
-    //     std::cout << "success";
-    // }
+
     char cwd[1024];
      _getcwd(cwd,sizeof(cwd));
     std::string usual_path = std::string(cwd) + "/../src/Btree_model/BTdata/";
-    std::string fp_s1_1 = usual_path + "bt8.btr";
+    std::string fp_s1_1 = usual_path + "bt21.btr";//操作这个最多到的下标是61
     char tmp[1024];//储存着临时的文件路径
     std::strncpy(tmp, fp_s1_1.c_str(), sizeof(tmp) - 1);
     tmp[sizeof(tmp) - 1] = '\0'; // 确保安全截断
@@ -36,9 +21,15 @@ int main()
     {
         if(create_bi_tree_from_file(root,str_line,n_arr_len,cur_row))
         {
-            elemen_type s1[1024];
+            elemen_type s1[NODE_NUM + 1];
+            std::fill(s1, s1 + NODE_NUM + 1, '#');
             s1_convert_array(root,s1);
             print(s1);
+            elemen_type l = 'e';
+            elemen_type r = 'j';
+            bnode * lca = s3_find_lca(root,  l,  r);
+            std::cout << "\n";
+            std::cout << lca->data;
         }
         else
         {
