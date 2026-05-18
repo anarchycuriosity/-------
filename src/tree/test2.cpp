@@ -7,7 +7,7 @@ int main()
 
     char cwd[1024];
      _getcwd(cwd,sizeof(cwd));
-    std::string usual_path = std::string(cwd) + "/../src/Btree_model/BTdata/";
+    std::string usual_path = std::string(cwd) + "/../src/tree/BTdata/";
     std::string fp_s1_1 = usual_path + "bt21.btr";
     char tmp[1024];//储存着临时的文件路径
     std::strncpy(tmp, fp_s1_1.c_str(), sizeof(tmp) - 1);

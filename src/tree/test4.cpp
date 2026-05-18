@@ -38,23 +38,30 @@ int main()
 
     char cwd[1024];
      _getcwd(cwd,sizeof(cwd));
-    std::string usual_path = std::string(cwd) + "/../src/Btree_model/tData/";
-    std::string fp_s1_1 = usual_path + "tree11.tre";//操作这个最多到的下标是61
+    std::string usual_path = std::string(cwd) + "/../src/tree/BTdata/";
+    std::string fp_s1_1 = usual_path + "bt261.btr";//操作这个最多到的下标是61
     char tmp[1024];//储存着临时的文件路径
     std::strncpy(tmp, fp_s1_1.c_str(), sizeof(tmp) - 1);
     tmp[sizeof(tmp) - 1] = '\0'; // 确保安全截断
 
-    // char str_line[NODE_NUM][2];
-    // int n_arr_len;//得到数组的长度，也就是节点数
-    p_tree root;
-    // int cur_row = 0;
-    if(create_tree_from_file(tmp,root))
+    char str_line[NODE_NUM][3];
+    int n_arr_len;//得到数组的长度，也就是节点数
+    bnode *root = new bnode;
+    int cur_row = 0;
+    if(read_file_to_array(tmp,str_line,n_arr_len))
     {
-        std::cout << "create_tree: success";
+        if(create_bi_tree_from_file(root,str_line,n_arr_len,cur_row))
+        {
+            recurse(root);
+        }
+        else
+        {
+            std::cout << "creat_bi:fail";
+        }
     }
     else
     {
-        std::cout << "creat_tree: error";
+        std::cout << "read_file:fail";
     }
 
 
