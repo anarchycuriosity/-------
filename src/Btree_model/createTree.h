@@ -355,7 +355,7 @@ int create_tree_from_file(char file_name[], p_tree &t)
 		}
 		n_f = *token;
 
-		token = std::strtok(NULL, " ");
+		token = std::strtok(NULL, " ");//call it second time with null
 		if (token == NULL)
 		{
 			std::printf("错误：读取树的边数据失败！\n");
